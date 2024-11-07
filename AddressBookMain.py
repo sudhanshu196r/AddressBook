@@ -38,8 +38,53 @@ class AddressBook:
         else:
             log.info(f"Contact {key} already exists in the address book.")
 
-    
-address_book = AddressBook()
+    def display_contacts(self):
+        if self.contacts:
+            for contact in self.contacts.values():
+                log.info(contact)
+        else:
+            log.info("No contacts in the address book.")
 
-contact1 = Contact("John", "Doe", "123 Elm St", "Springfield", "IL", "62701", "123-456-7890", "john.doe@example.com")
-address_book.add_contact(contact1)
+    
+class AddressBookMain:
+    def __init__(self):
+        self.address_book = AddressBook()
+
+    def add_contact_from_console(self):
+        print("Enter the following contact details:")
+
+        first_name = input("First Name: ")
+        last_name = input("Last Name: ")
+        address = input("Address: ")
+        city = input("City: ")
+        state = input("State: ")
+        zip_code = input("Zip Code: ")
+        phone = input("Phone Number: ")
+        email = input("Email: ")
+
+        contact = Contact(first_name, last_name, address, city, state, zip_code, phone, email)
+        self.address_book.add_contact(contact)
+
+    def run(self):
+        while True:
+            print("\n--- Address Book ---")
+            print("1. Add New Contact")
+            print("6. Display Contact")
+            print("7.Exit")
+    
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.add_contact_from_console()
+            elif choice == "6":
+                self.address_book.display_contacts()
+                break
+            elif choice =="7":
+                break
+            else:
+                print("Invalid choice. Please try again.")
+
+
+if __name__=="__main__":
+    address_main = AddressBookMain()
+    address_main.run()
