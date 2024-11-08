@@ -37,6 +37,18 @@ class AddressBook:
             log.info(f"Contact {key} added successfully.")
         else:
             log.info(f"Contact {key} already exists in the address book.")
+    
+    def edit_contact(self, f_name, l_name):
+        key = f"{f_name} {l_name}"
+        if key not in self.contacts:
+            log.info(f"{key} not found in Contacts")
+        else:
+            self.contacts[key].address = input("Enter new address: ")
+            self.contacts[key].city = input("Enter new city: ")
+            self.contacts[key].state = input("Enter new state: ")
+            self.contacts[key].zip_code = input("Enter new zipcode: ")
+            self.contacts[key].phone = input("Enter new phone number: ")
+            self.contacts[key].email = input("Enter new email: ")
 
     def display_contacts(self):
         if self.contacts:
@@ -65,10 +77,19 @@ class AddressBookMain:
         contact = Contact(first_name, last_name, address, city, state, zip_code, phone, email)
         self.address_book.add_contact(contact)
 
+    def edit_contact_from_console(self):
+        print("Enter the Following Details: ")
+
+        f_name = input("Enter first name: ")
+        l_name = input("Enter last name: ")
+
+        self.address_book.edit_contact(f_name,l_name)
+
     def run(self):
         while True:
             print("\n--- Address Book ---")
             print("1. Add New Contact")
+            print("2. Edit Contact")
             print("6. Display Contact")
             print("7.Exit")
     
@@ -76,9 +97,10 @@ class AddressBookMain:
 
             if choice == "1":
                 self.add_contact_from_console()
+            elif choice == "2":
+                self.edit_contact_from_console()
             elif choice == "6":
                 self.address_book.display_contacts()
-                break
             elif choice =="7":
                 break
             else:
