@@ -65,11 +65,13 @@ class AddressBook:
             self.contacts[key].email = input("Enter new email: ")
 
     def display_contacts(self):
-        if self.contacts:
-            for contact in self.contacts.values():
-                log.info(contact)
+        if self.address_book_collection:
+            for contacts in self.address_book_collection.values():
+                    log.info(f"{contacts}")
+                    for contact in contacts.values():
+                        log.info(contact)
         else:
-            log.info("No contacts in the address book.")
+            log.info("No address book is present.")
 
     
 class AddressBookMain:
