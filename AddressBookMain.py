@@ -30,6 +30,8 @@ class AddressBook:
     def __init__(self):
         self.contacts = {}
         self.address_book_collection = defaultdict(dict)
+        self.city_person = {}
+        self.state_person = {}
 
     def add_contact(self,address_book_name, contact):
         main_key = address_book_name
@@ -40,6 +42,14 @@ class AddressBook:
                 self.address_book_collection[main_key]= self.contacts
                 log.info(self.contacts.items())
                 log.info(f"Contact {key} added successfully.")
+
+                if contact.city not in self.city_person:
+                    self.city_person[contact.city] = []
+                self.city_person[contact.city].append(contact)
+                
+                if contact.state not in self.state_person:
+                    self.state_person[contact.state] = []
+                self.state_person[contact.state].append(contact)
             else:
                 log.info(f"Contact {key} already exists in the address book.")
         else:
@@ -49,6 +59,13 @@ class AddressBook:
                 self.address_book_collection[main_key]= self.contacts
                 log.info(self.contacts.items())
                 log.info(f"Contact {key} added successfully.")
+                if contact.city not in self.city_person:
+                    self.city_person[contact.city] = []
+                self.city_person[contact.city].append(contact)
+                
+                if contact.state not in self.state_person:
+                    self.state_person[contact.state] = []
+                self.state_person[contact.state].append(contact)
             else:
                 log.info(f"Contact {key} already exists in the address book.")
     
@@ -73,6 +90,19 @@ class AddressBook:
                         log.info(f"{contact}")
         else:
             log.warning("Address book is empty")
+
+    def display_city_persons(self):
+        for city, person in self.city_person.items():
+            log.info(f"City: {city}: ")
+            for contact in person:
+                log.info(f"City: {city}: ")
+                log.info(f" First Name:{contact.first_name} last Name:{contact.last_name} Address:{contact.address} Email:{contact.email}")
+
+    def display_state_persons(self):
+        for state, person in self.state_person.items():
+            log.info(f"state: {state}: ")
+            for contact in person:
+                log.info(f" First Name:{contact.first_name} last Name:{contact.last_name} Address:{contact.address} Email:{contact.email}")
 
     def display_contacts(self):
         if self.address_book_collection:
@@ -126,6 +156,8 @@ class AddressBookMain:
             print("1. Add New Contact")
             print("2. Edit Contact")
             print("3. Search contact by City or State")
+            print("4. Show contact by city")
+            print("5. Show contact by state")
             print("6. Display Contact")
             print("7.Exit")
     
@@ -140,6 +172,10 @@ class AddressBookMain:
                 self.edit_contact_from_console()
             elif choice =="3":
                 self.search_contact_by_city_state_from_console()
+            elif choice == "4":
+                self.address_book.display_city_persons()
+            elif choice == "5":
+                self.address_book.display_state_persons()
             elif choice == "6":
                 self.address_book.display_contacts()
             elif choice =="7":
