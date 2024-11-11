@@ -94,15 +94,20 @@ class AddressBook:
     def display_city_persons(self):
         for city, person in self.city_person.items():
             log.info(f"City: {city}: ")
+            count=0
             for contact in person:
-                log.info(f"City: {city}: ")
+                count+=1
                 log.info(f" First Name:{contact.first_name} last Name:{contact.last_name} Address:{contact.address} Email:{contact.email}")
+            log.info(f"{count} person in {city} city.")
 
     def display_state_persons(self):
         for state, person in self.state_person.items():
             log.info(f"state: {state}: ")
+            count = 0
             for contact in person:
+                count+=1
                 log.info(f" First Name:{contact.first_name} last Name:{contact.last_name} Address:{contact.address} Email:{contact.email}")
+            log.info(f"{count} person in {state} state.")
 
     def display_contacts(self):
         if self.address_book_collection:
