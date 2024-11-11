@@ -35,7 +35,7 @@ class AddressBook:
         main_key = address_book_name
         if main_key not in self.address_book_collection:
             key = f"{contact.first_name} {contact.last_name}"
-            if key not in self.address_book_collection[main_key]:
+            if key not in self.address_book_collection[main_key]: #UC7 ensuring that there is no duplicate
                 self.contacts[key]=contact
                 self.address_book_collection[main_key]= self.contacts
                 log.info(self.contacts.items())
@@ -63,6 +63,16 @@ class AddressBook:
             self.contacts[key].zip_code = input("Enter new zipcode: ")
             self.contacts[key].phone = input("Enter new phone number: ")
             self.contacts[key].email = input("Enter new email: ")
+
+    #UC8
+    def search_by_city_state(self, city, state):
+        if self.address_book_collection:
+            for contacts in self.address_book_collection.values():
+                for contact in contacts.values():
+                    if contact.city == city or contact.state==state:
+                        log.info(f"{contact}")
+        else:
+            log.warning("Address book is empty")
 
     def display_contacts(self):
         if self.address_book_collection:
@@ -103,11 +113,19 @@ class AddressBookMain:
 
         self.address_book.edit_contact(f_name,l_name)
 
+    def search_contact_by_city_state_from_console(self):
+        print("Enter the details below: ")
+        city = input("Enter City: ")
+        state = input("Enter state: ")
+
+        self.address_book.search_by_city_state(city,state)
+
     def run(self):
         while True:
             print("\n--- Address Book ---")
             print("1. Add New Contact")
             print("2. Edit Contact")
+            print("3. Search contact by City or State")
             print("6. Display Contact")
             print("7.Exit")
     
@@ -120,6 +138,8 @@ class AddressBookMain:
                     count-=1
             elif choice == "2":
                 self.edit_contact_from_console()
+            elif choice =="3":
+                self.search_contact_by_city_state_from_console()
             elif choice == "6":
                 self.address_book.display_contacts()
             elif choice =="7":
