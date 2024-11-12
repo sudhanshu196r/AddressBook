@@ -158,15 +158,6 @@ class AddressBook:
             log.warning("Invalid sort key.")
 
 
-    def save_to_txt(self, filename='address_book.txt'):
-        with open(filename, 'w') as file:
-            for book_name, contacts in self.address_book_collection.items():
-                file.write(f"Address Book: {book_name}\n")
-                for contact in contacts.values():
-                    file.write(str(contact) + '\n')
-                file.write("\n")
-        log.info(f"Address book saved to {filename}")
-
 
     def display_contacts(self):
         if self.address_book_collection:
