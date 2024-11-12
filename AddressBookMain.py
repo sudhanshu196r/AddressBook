@@ -8,6 +8,7 @@
 '''
 
 import logger
+import csv
 from collections import defaultdict
 
 log = logger.logger_init('AddressBook')
@@ -159,6 +160,27 @@ class AddressBook:
 
 
 
+
+    def save_to_csv(self, filename='address_book.csv'):
+        with open(filename, 'w', newline='') as csvfile:
+            fieldnames = ['First Name', 'Last Name', 'Address', 'City', 'State', 'Zip Code', 'Phone', 'Email']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for contacts in self.address_book_collection.values():
+                for contact in contacts.values():
+                    writer.writerow({
+                        'First Name': contact.first_name,
+                        'Last Name': contact.last_name,
+                        'Address': contact.address,
+                        'City': contact.city,
+                        'State': contact.state,
+                        'Zip Code': contact.zip_code,
+                        'Phone': contact.phone,
+                        'Email': contact.email
+                    })
+        log.info(f"Address book saved to {filename}")
+
+
     def display_contacts(self):
         if self.address_book_collection:
             for books,contacts in self.address_book_collection.items():
@@ -238,6 +260,7 @@ class AddressBookMain:
             print("11.Exit")
             print("12. sort contacts")
             print("13. Save person contact to .txt file")
+            print("14. Save person contact to .csv file")
     
     
             choice = input("Enter your choice: ")
@@ -271,6 +294,8 @@ class AddressBookMain:
                 self.sort_contact_from_console()
             elif choice == "13":
                 self.address_book.save_to_txt()
+            elif choice == "14":
+                self.address_book.save_to_csv()
             else:
                 print("Invalid choice. Please try again.")
 
