@@ -109,10 +109,58 @@ class AddressBook:
                 log.info(f" First Name:{contact.first_name} last Name:{contact.last_name} Address:{contact.address} Email:{contact.email}")
             log.info(f"{count} person in {state} state.")
 
-    def display_contacts(self):
+    """"def sort_by_name(self):
         if self.address_book_collection:
             for contacts in self.address_book_collection.values():
-                    log.info(f"{contacts}")
+                for contact in sorted(contacts.keys()):
+                    log.info(f" Name:{contacts[contact].first_name} ")"""
+
+    def sort_by_name(self):
+        
+        sorted_contacts = sorted(self.contacts.keys(), key=lambda c: c.f_name)
+        log.info("Contacts sorted by Name:")
+        for contact in sorted_contacts:
+            log.info(contacts[contact].values())
+
+
+    def sort_by_city(self):
+        sorted_contacts = sorted(self.contacts.values(), key=lambda c: c.city)
+        log.info("Contacts sorted by city:")
+        for contact in sorted_contacts:
+            log.info(contact)
+
+    def sort_by_state(self):
+        sorted_contacts = sorted(self.contacts.values(), key=lambda c: c.state)
+        log.info("Contacts sorted by state:")
+        for contact in sorted_contacts:
+            log.info(contact)
+
+    def sort_by_zip(self):
+        sorted_contacts = sorted(self.contacts.values(), key=lambda c: c.zip_code)
+        log.info("Contacts sorted by zip:")
+        for contact in sorted_contacts:
+            log.info(contact)
+
+    def sort_contacts(self, by='name'):
+        if self.contacts:
+            key_map = {
+                'name': lambda c: f"{c.first_name} {c.last_name}",
+                'city': lambda c: c.city,
+                'state': lambda c: c.state,
+                'zip': lambda c: c.zip_code
+            }
+        if by in key_map:
+            sorted_contacts = sorted(self.contacts.values(), key=key_map[by])
+            log.info(f"Contacts sorted by {by}:")
+            for contact in sorted_contacts:
+                log.info(contact)
+        else:
+            log.warning("Invalid sort key.")
+
+    def display_contacts(self):
+        if self.address_book_collection:
+            for books,contacts in self.address_book_collection.items():
+                    log.info(f"{books}")
                     for contact in contacts.values():
                         log.info(contact)
         else:
@@ -155,6 +203,22 @@ class AddressBookMain:
 
         self.address_book.search_by_city_state(city,state)
 
+    def sort_contact_from_console(self):
+        print("Sort by: ")
+        print("1.name")
+        print("2.city")
+        print("3.state")
+        print("4.zip")
+        by = input("Enter option number: ")
+        if by=='1':
+            self.address_book.sort_contacts()
+        elif by=='2':
+            self.address_book.sort_contacts("city")
+        elif by=='3':
+            self.address_book.sort_contacts("state")
+        elif by=='4':
+            self.address_book.sort_contacts("zip")
+
     def run(self):
         while True:
             print("\n--- Address Book ---")
@@ -163,8 +227,13 @@ class AddressBookMain:
             print("3. Search contact by City or State")
             print("4. Show contact by city")
             print("5. Show contact by state")
-            print("6. Display Contact")
-            print("7.Exit")
+            print("6. Sort by name")
+            print("7. Sort by City")
+            print("8. Sort by state")
+            print("9. Sort by Zip")
+            print("10. Display Contact")
+            print("11.Exit")
+            print("12. sort contacts")
     
             choice = input("Enter your choice: ")
 
@@ -181,10 +250,20 @@ class AddressBookMain:
                 self.address_book.display_city_persons()
             elif choice == "5":
                 self.address_book.display_state_persons()
-            elif choice == "6":
-                self.address_book.display_contacts()
+            elif choice =="6":
+                self.address_book.sort_by_name()
             elif choice =="7":
+                self.address_book.sort_by_city()
+            elif choice =="8":
+                self.address_book.sort_by_state()
+            elif choice =="9":
+                self.address_book.sort_by_zip()
+            elif choice == "10":
+                self.address_book.display_contacts()
+            elif choice =="11":
                 break
+            elif choice == "12":
+                self.sort_contact_from_console()
             else:
                 print("Invalid choice. Please try again.")
 
