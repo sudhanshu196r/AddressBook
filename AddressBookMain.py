@@ -9,6 +9,7 @@
 
 import logger
 import csv
+import json
 from collections import defaultdict
 
 log = logger.logger_init('AddressBook')
@@ -180,6 +181,28 @@ class AddressBook:
                     })
         log.info(f"Address book saved to {filename}")
 
+    
+
+    def save_to_json(self, filename='address_book.json'):
+        json_data = {}
+        for book_name, contacts in self.address_book_collection.items():
+            json_data[book_name] = [
+                {
+                    'First Name': contact.first_name,
+                    'Last Name': contact.last_name,
+                    'Address': contact.address,
+                    'City': contact.city,
+                    'State': contact.state,
+                    'Zip Code': contact.zip_code,
+                    'Phone': contact.phone,
+                    'Email': contact.email
+                }
+                for contact in contacts.values()
+            ]
+        with open(filename, 'w') as jsonfile:
+            json.dump(json_data, jsonfile, indent=4)
+        log.info(f"Address book saved to {filename}")
+
 
     def display_contacts(self):
         if self.address_book_collection:
@@ -261,6 +284,7 @@ class AddressBookMain:
             print("12. sort contacts")
             print("13. Save person contact to .txt file")
             print("14. Save person contact to .csv file")
+            print("15. Save person contact to .json file")
     
     
             choice = input("Enter your choice: ")
@@ -296,6 +320,8 @@ class AddressBookMain:
                 self.address_book.save_to_txt()
             elif choice == "14":
                 self.address_book.save_to_csv()
+            elif choice == "15":
+                self.address_book.save_to_json()
             else:
                 print("Invalid choice. Please try again.")
 
