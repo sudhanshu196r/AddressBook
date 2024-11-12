@@ -221,6 +221,7 @@ class AddressBookMain:
         elif by=='4':
             self.address_book.sort_contacts("zip")
 
+
     def run(self):
         while True:
             print("\n--- Address Book ---")
